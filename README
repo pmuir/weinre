@@ -1,53 +1,37 @@
-Feel free to change or remove this file, it is informational only.
+Weinre on OpenShift
+=========================
 
-Get started
-===========
-1. Add framework of choice to your repo.
-2. Modify .openshift/action_hooks/start to start your application.
-   The application is required to bind to $OPENSHIFT_INTERNAL_IP:8080.
-3. Modify .openshift/action_hooks/stop to stop your application.
-4. Commit and push your changes.
+weinre is WEb INspector REmote. Pronounced like the word "winery". Or maybe like the word "weiner". Who knows, really.
+
+weinre is a debugger for web pages, like FireBug (for FireFox) and Web Inspector (for WebKit-based browsers), except it's designed to work remotely, and in particular, to allow you debug web pages on a mobile device such as a phone.
+
+Running on OpenShift
+--------------------
+
+Create an account at http://openshift.redhat.com/
+
+Create a weinre application
+
+    rhc app create -a weinre -t diy
+
+Add this upstream weinre repo
+
+    cd weinre
+    git remote add upstream -m master git://github.com/openshift/weinre.git
+    git pull -s recursive -X theirs upstream master
+
+Then push the repo upstream
+
+    git push
+
+That's it, you can now checkout your application at:
+
+    http://weinre-$namespace.rhcloud.com
+
 
 Repo layout
 ===========
-static/ - Externally exposed static content goes here
-.openshift/action_hooks/start - Script that gets run to start your application
-.openshift/action_hooks/stop - Script that gets run to stop your application
-.openshift/action_hooks/pre_build - Script that gets run every git push before the build
-.openshift/action_hooks/build - Script that gets run every git push as part of the build process (on the CI system if available)
-.openshift/action_hooks/deploy - Script that gets run every git push after build but before the app is restarted
-.openshift/action_hooks/post_deploy - Script that gets run every git push after the app is restarted
+weinre.server/ - A build of weinre
+.openshift/action_hooks/start - Script that gets run to start weinre and direct console output to the log 
+.openshift/action_hooks/stop - Script that gets run to stop weinre
 
-Notes about layout
-==================
-Please leave the static directory in place (alter but do not delete) but feel
-free to create additional directories if needed.
-
-Note: Every time you push, everything in your remote repo dir gets recreated
-      please store long term items (like an sqlite database) in the OpenShift
-      data directory, which will persist between pushes of your repo.
-      The OpenShift data directory is accessible relative to the remote repo
-      directory (../data) or using a path constructed as
-      $OPENSHIFT_HOMEDIR/app-root/data.
-
-
-Environment Variables
-=====================
-
-OpenShift provides several environment variables to reference for ease
-of use.  The following list are some common variables but far from exhaustive:
-
-    $OPENSHIFT_INTERNAL_IP            - IP Address assigned to the application
-    $OPENSHIFT_APP_NAME               - Application name
-    $OPENSHIFT_HOMEDIR/diy-0.1        - Application dir
-    $OPENSHIFT_HOMEDIR/app-root/data  - For persistent storage (between pushes)
-    $OPENSHIFT_TMP_DIR                - Temp storage (unmodified files deleted after 10 days)
-
-To get a full list of environment variables, simply add a line in your
-.openshift/action_hooks/build script that says "export" and push.
-
-
-Additional information
-======================
-
-Link to additional information will be here, when we have it :)
