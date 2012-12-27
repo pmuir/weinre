@@ -17,10 +17,10 @@ Create a weinre application
 Add this upstream weinre repo
 
     cd weinre
-    git remote add upstream -m master git://github.com/openshift/weinre.git
+    git remote add upstream -m master git://github.com/pmuir/weinre.git
     git pull -s recursive -X theirs upstream master
 
-Then push the repo upstream
+Then push the repo to origin
 
     git push
 
