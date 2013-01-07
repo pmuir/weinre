@@ -20,7 +20,7 @@ Add this upstream weinre repo
     git remote add upstream -m master git://github.com/openshift/weinre.git
     git pull -s recursive -X theirs upstream master
 
-Then push the repo upstream
+Then push the repo top OpenShift
 
     git push
 
